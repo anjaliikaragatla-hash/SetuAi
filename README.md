@@ -1,16 +1,86 @@
-# React + Vite
+# SetuAI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SetuAI is an AI-powered platform designed to simplify access to government services through a modern, user-friendly interface. It helps users explore government schemes, access essential services, and interact with an AI assistant in English or Hindi.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Secure user authentication (Login, Sign Up, Guest Access)
+- AI chat interface (frontend ready)
+- Government scheme recommendation module (UI ready)
+- English and Hindi language support
+- Responsive, mobile-first design
+- Dashboard with quick access to government services
+- Modern UI built for accessibility and ease of use
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- Vite
+- Tailwind CSS
+- React Router
+- Context API
+- Lucide React Icons
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Clone the repository
+
+```bash
+git clone https://github.com/your-username/SetuAI.git
+```
+
+### Navigate to the project
+
+```bash
+cd SetuAI
+```
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Start the development server
+
+```bash
+npm run dev
+```
+
+The application will be available at:
+
+```
+http://localhost:5173
+```
+
+## Project Structure
+
+```
+src/
+├── components/
+├── pages/
+├── context/
+├── locales/
+├── assets/
+├── App.jsx
+└── main.jsx
+```
+
+## Current Status
+
+- Frontend implementation completed
+- Authentication implemented using mock data
+- Responsive UI across devices
+- Backend integration in progress
+
+## Future Enhancements
+
+- AI-powered chatbot functionality
+- Government scheme recommendation engine
+- Voice assistant support
+- Real-time backend authentication
+- Integration with government APIs
+
+## License
+
+This project was developed as part of a hackathon.
