@@ -98,6 +98,19 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("setuai_guest");
   };
 
+  const updateUser = (updatedData) => {
+    setUser((prev) => {
+      const updated = { ...prev, ...updatedData };
+      localStorage.setItem("setuai_user", JSON.stringify(updated));
+      return updated;
+    });
+    // If guest, convert to user upon profile save
+    if (isGuest) {
+      setIsGuest(false);
+      localStorage.removeItem("setuai_guest");
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -108,7 +121,8 @@ export const AuthProvider = ({ children }) => {
         login,
         signUp,
         loginAsGuest,
-        logout
+        logout,
+        updateUser
       }}
     >
       {children}
