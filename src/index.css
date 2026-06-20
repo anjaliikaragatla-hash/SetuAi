@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+:root {
+  font-family: 'Outfit', 'Noto Sans Devanagari', system-ui, -apple-system, sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: #fbfbf9; /* Warm stone-50/cream background */
+  color: #0f172a; /* Slate 900 */
+}
+
+/* Glassmorphism utility card base */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Glassmorphism navigation utility */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(241, 240, 233, 0.8);
+}
+
+/* Pulse-slow for premium abstract background glows */
+@keyframes pulse-slow {
+  0%, 100% {
+    transform: scale(1) translate(0px, 0px);
+    opacity: 0.2;
+  }
+  33% {
+    transform: scale(1.1) translate(15px, -15px);
+    opacity: 0.35;
+  }
+  66% {
+    transform: scale(0.9) translate(-10px, 15px);
+    opacity: 0.25;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 12s infinite alternate ease-in-out;
+}
+
+.animate-pulse-slow-reverse {
+  animation: pulse-slow 15s infinite alternate-reverse ease-in-out;
+}
