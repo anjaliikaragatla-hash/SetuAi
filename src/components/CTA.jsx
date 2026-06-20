@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { Sparkles, MessageSquare } from "lucide-react";
 
@@ -34,13 +35,13 @@ export const CTA = () => {
 
             {/* CTA Button */}
             <div className="pt-4 w-full sm:w-auto">
-              <a
-                href="#home"
+              <Link
+                to="/login"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold px-8 py-4 rounded-full shadow-lg hover:shadow-orange-500/20 active:scale-98 transition-all hover:-translate-y-0.5"
               >
                 <MessageSquare className="w-5 h-5 fill-white/10" />
                 <span>{t("cta.btn")}</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

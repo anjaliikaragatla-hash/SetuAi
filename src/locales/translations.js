@@ -5,7 +5,10 @@ export const translations = {
       features: "Features",
       about: "About",
       contact: "Contact",
-      getStarted: "Get Started"
+      getStarted: "Get Started",
+      login: "Login",
+      logout: "Logout",
+      dashboard: "Dashboard"
     },
     hero: {
       badge: "🇮🇳 AI-Powered Citizen Empowerment",
@@ -106,6 +109,51 @@ export const translations = {
       terms: "Terms & Conditions",
       contact: "Contact Us",
       copyright: "© 2026 SetuAI. All rights reserved. Empowering every citizen with information."
+    },
+    auth: {
+      loginTitle: "Welcome back",
+      loginSubtitle: "Login to continue accessing government services through SetuAI.",
+      phoneOrEmail: "Mobile Number or Email",
+      password: "Password",
+      confirmPassword: "Confirm Password",
+      fullName: "Full Name",
+      rememberMe: "Remember Me",
+      forgotPassword: "Forgot Password?",
+      loginBtn: "Login",
+      guestBtn: "Continue as Guest",
+      noAccount: "Don't have an account?",
+      createAccount: "Create Account",
+      signUpTitle: "Create your SetuAI Account",
+      signUpBtn: "Create Account",
+      alreadyAccount: "Already have an account?",
+      preferredLanguage: "Preferred Language",
+      userType: "User Type",
+      userTypes: {
+        farmer: "Farmer",
+        student: "Student",
+        woman: "Woman",
+        senior: "Senior Citizen",
+        general: "General Citizen"
+      },
+      validation: {
+        required: "This field is required",
+        phoneOrEmailInvalid: "Please enter a valid mobile number or email",
+        passwordMin: "Password must be at least 6 characters",
+        passwordsMismatch: "Passwords do not match",
+        fullNameMin: "Name must be at least 3 characters",
+        phoneInvalid: "Please enter a valid 10-digit mobile number"
+      }
+    },
+    dashboard: {
+      welcome: "Welcome to SetuAI",
+      actionsTitle: "Quick Actions",
+      schemes: "Government Schemes",
+      assistant: "AI Assistant",
+      healthcare: "Healthcare Support",
+      farming: "Farming Support",
+      chatComing: "AI Chat Coming Next",
+      chatPlaceholder: "Ask anything about government services...",
+      profile: "Profile"
     }
   },
   hi: {
@@ -114,7 +162,10 @@ export const translations = {
       features: "विशेषताएं",
       about: "हमारे बारे में",
       contact: "संपर्क करें",
-      getStarted: "शुरू करें"
+      getStarted: "शुरू करें",
+      login: "लॉगिन करें",
+      logout: "लॉगआउट",
+      dashboard: "डैशबोर्ड"
     },
     hero: {
       badge: "🇮🇳 एआई-संचालित नागरिक सशक्तिकरण",
@@ -215,6 +266,51 @@ export const translations = {
       terms: "नियम और शर्तें",
       contact: "संपर्क करें",
       copyright: "© 2026 SetuAI. सर्वाधिकार सुरक्षित। हर नागरिक को जानकारी से सशक्त बनाना।"
+    },
+    auth: {
+      loginTitle: "आपका स्वागत है",
+      loginSubtitle: "SetuAI के माध्यम से सरकारी सेवाओं का लाभ उठाने के लिए लॉगिन करें।",
+      phoneOrEmail: "मोबाइल नंबर या ईमेल",
+      password: "पासवर्ड",
+      confirmPassword: "पासवर्ड की पुष्टि करें",
+      fullName: "पूरा नाम",
+      rememberMe: "याद रखें",
+      forgotPassword: "पासवर्ड भूल गए?",
+      loginBtn: "लॉगिन करें",
+      guestBtn: "अतिथि के रूप में जारी रखें",
+      noAccount: "खाता नहीं है?",
+      createAccount: "खाता बनाएं",
+      signUpTitle: "अपना SetuAI खाता बनाएं",
+      signUpBtn: "खाता बनाएं",
+      alreadyAccount: "पहले से ही खाता है?",
+      preferredLanguage: "पसंदीदा भाषा",
+      userType: "उपयोगकर्ता प्रकार",
+      userTypes: {
+        farmer: "किसान",
+        student: "छात्र",
+        woman: "महिला",
+        senior: "वरिष्ठ नागरिक",
+        general: "सामान्य नागरिक"
+      },
+      validation: {
+        required: "यह फ़ील्ड आवश्यक है",
+        phoneOrEmailInvalid: "कृपया एक वैध मोबाइल नंबर या ईमेल दर्ज करें",
+        passwordMin: "पासवर्ड कम से कम 6 अक्षरों का होना चाहिए",
+        passwordsMismatch: "पासवर्ड मेल नहीं खाते हैं",
+        fullNameMin: "नाम कम से कम 3 अक्षरों का होना चाहिए",
+        phoneInvalid: "कृपया एक वैध 10-अंकीय मोबाइल नंबर दर्ज करें"
+      }
+    },
+    dashboard: {
+      welcome: "SetuAI में आपका स्वागत है",
+      actionsTitle: "त्वरित कार्य",
+      schemes: "सरकारी योजनाएं",
+      assistant: "एआई सहायक",
+      healthcare: "स्वास्थ्य सेवा सहायता",
+      farming: "कृषि सहायता",
+      chatComing: "एआई चैट जल्द आ रहा है",
+      chatPlaceholder: "सरकारी सेवाओं के बारे में कुछ भी पूछें...",
+      profile: "प्रोफ़ाइल"
     }
   }
 };

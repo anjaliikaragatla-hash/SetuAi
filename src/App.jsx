@@ -1,38 +1,32 @@
 import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "./context/LanguageContext";
-import { Navbar } from "./components/Navbar";
-import { Hero } from "./components/Hero";
-import { Features } from "./components/Features";
-import { HowItWorks } from "./components/HowItWorks";
-import { Trust } from "./components/Trust";
-import { CTA } from "./components/CTA";
-import { Footer } from "./components/Footer";
+import { AuthProvider } from "./context/AuthContext";
+import { LandingPage } from "./pages/LandingPage";
+import { Login } from "./pages/Login";
+import { SignUp } from "./pages/SignUp";
+import { Dashboard } from "./pages/Dashboard";
 
 function App() {
   return (
     <LanguageProvider>
-      <div className="min-h-screen bg-stone-50/20 text-slate-900 antialiased">
-        {/* Fixed Navigation Bar */}
-        <Navbar />
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Landing Page */}
+            <Route path="/" element={<LandingPage />} />
 
-        {/* Hero Section (Home) */}
-        <Hero />
+            {/* Login View */}
+            <Route path="/login" element={<Login />} />
 
-        {/* Feature Section */}
-        <Features />
+            {/* Sign Up View */}
+            <Route path="/signup" element={<SignUp />} />
 
-        {/* How It Works Section (About/Process) */}
-        <HowItWorks />
-
-        {/* Trust & Verification Section */}
-        <Trust />
-
-        {/* Call to Action Banner */}
-        <CTA />
-
-        {/* Footer (Contact and Info) */}
-        <Footer />
-      </div>
+            {/* Dashboard View */}
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </LanguageProvider>
   );
 }

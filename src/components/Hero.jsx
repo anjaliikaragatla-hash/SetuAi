@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { InteractiveChat } from "./InteractiveChat";
 import { ArrowRight, HelpCircle, Sparkles } from "lucide-react";
@@ -15,12 +16,12 @@ export const Hero = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
+
           {/* Left Side: Headlines & Action Buttons */}
           <div className="lg:col-span-6 space-y-6 text-left">
             {/* Banner/Badge */}
             <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-100/60 border border-amber-200 text-amber-900 text-xs font-semibold shadow-sm tracking-wide">
-              <Sparkles className="w-3.5 h-3.5 text-amber-600 fill-amber-500 animate-spin-slow" />
+              <Sparkles className="w-3.5 h-3.5 text-amber-600 fill-amber-500" />
               <span>{t("hero.badge")}</span>
             </div>
 
@@ -39,13 +40,13 @@ export const Hero = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
-              <a
-                href="#features"
+              <Link
+                to="/login"
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-700 text-white font-semibold px-7 py-4 rounded-full shadow-lg hover:shadow-emerald-600/20 hover:-translate-y-0.5 active:scale-98 transition-all duration-200"
               >
                 <span>{t("hero.btnPrimary")}</span>
                 <ArrowRight className="w-4 h-4" />
-              </a>
+              </Link>
 
               <a
                 href="#about"
@@ -64,9 +65,7 @@ export const Hero = () => {
                 <span className="w-8 h-8 rounded-full border-2 border-white bg-amber-100 flex items-center justify-center text-xs">👵</span>
               </div>
               <p className="text-xs text-slate-500 font-medium">
-                {t("language") === "hi" 
-                  ? "ग्राम पंचायतों, स्वयं सहायता समूहों और स्वयंसेवकों द्वारा विश्वसनीय।" 
-                  : "Trusted by gram panchayats, self-help groups, and rural volunteers."}
+                Trusted by gram panchayats, self-help groups, and rural volunteers.
               </p>
             </div>
           </div>
@@ -75,9 +74,9 @@ export const Hero = () => {
           <div className="lg:col-span-6 relative flex flex-col md:flex-row lg:flex-col xl:flex-row items-center justify-center gap-6 w-full">
             {/* The Custom Vector Illustration */}
             <div className="w-full max-w-[340px] md:max-w-[300px] xl:max-w-[320px] rounded-3xl overflow-hidden shadow-xl border border-slate-200/60 p-2 bg-white transition-all duration-300 hover:shadow-2xl">
-              <img 
-                src="/hero_illustration.png" 
-                alt="SetuAI illustration showing Indian family interacting with a smartphone AI assistant" 
+              <img
+                src="/hero_illustration.png"
+                alt="SetuAI illustration showing Indian family interacting with a smartphone AI assistant"
                 className="w-full rounded-2xl object-cover hover:scale-[1.02] transition-transform duration-300"
               />
             </div>
