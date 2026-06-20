@@ -135,6 +135,13 @@ export const translations = {
         senior: "Senior Citizen",
         general: "General Citizen"
       },
+      userTypesDesc: {
+        farmer: "Farming schemes & crop aid",
+        student: "Scholarships & education aid",
+        woman: "Women empowerment & welfare",
+        senior: "Senior pension & health benefits",
+        general: "General public services"
+      },
       validation: {
         required: "This field is required",
         phoneOrEmailInvalid: "Please enter a valid mobile number or email",
@@ -186,7 +193,37 @@ export const translations = {
       profileUpdated: "Profile updated successfully!",
       guestUser: "Guest User",
       settingsTitle: "Settings",
-      settingsSubtitle: "Manage your account settings and theme preferences."
+      settingsSubtitle: "Manage your account settings and theme preferences.",
+      clearHistoryBtn: "Clear Chat History",
+      welcomeDesc: "Discover government schemes, healthcare support, and agricultural guidance in your preferred language.",
+      selectTopic: "Select a topic below to start asking",
+      backToDashboard: "Back to Dashboard",
+      accountActions: "Account Actions",
+      accountActionsDesc: "Sign out from your active session.",
+      notifPrefUpdated: "Notification preference updated",
+      allChatsDeleted: "All chats deleted successfully",
+      schemeBadge: "Scheme",
+      emailLabel: "Email Address",
+      enterName: "Enter your full name",
+      onlineStatus: "Online",
+      listeningSpeak: "Listening... Speak now",
+      selectQuickQuery: "Select a quick query",
+      apiSettingsTitle: "Chatbot API Configuration",
+      apiSettingsSubtitle: "Configure local or cloud open-source AI models.",
+      apiProviderLabel: "API Provider",
+      apiProviderMock: "Simulated Engine",
+      apiProviderMockDesc: "Fast local responses, ideal for previewing.",
+      apiProviderOllama: "Local Ollama",
+      apiProviderOllamaDesc: "Run open-source models privately on your device.",
+      apiProviderOpenRouter: "OpenRouter Cloud",
+      apiProviderOpenRouterDesc: "Access free open-source models in the cloud.",
+      apiProviderHF: "Hugging Face",
+      apiProviderHFDesc: "Use serverless open-source models with a free token.",
+      apiUrlLabel: "API Endpoint URL",
+      apiModelLabel: "Model Identifier",
+      apiKeyLabel: "API Key / Access Token",
+      apiFallbackWarning: "Connection to API failed. Falling back to Simulated Engine.",
+      apiSuccessMsg: "API Settings saved successfully!"
     }
   },
   hi: {
@@ -209,7 +246,7 @@ export const translations = {
       btnSecondary: "अधिक जानें"
     },
     chat: {
-      demoBadge: "Try SetuAI Live",
+      demoBadge: "SetuAI का लाइव उपयोग करें",
       placeholder: "कुछ भी पूछें (जैसे: खेती के लिए सहायता)...",
       welcome: "नमस्ते! मैं आपका SetuAI सहायक हूँ। आज मैं आपकी क्या मदद कर सकता हूँ? आप नीचे दिए गए सामान्य प्रश्नों में से चुन सकते हैं या अपना प्रश्न लिख सकते हैं।",
       typing: "SetuAI लिख रहा है...",
@@ -325,6 +362,13 @@ export const translations = {
         senior: "वरिष्ठ नागरिक",
         general: "सामान्य नागरिक"
       },
+      userTypesDesc: {
+        farmer: "कृषि योजनाएं और फसल सहायता",
+        student: "छात्रवृत्ति और शिक्षा सहायता",
+        woman: "महिला सशक्तिकरण और कल्याण",
+        senior: "वरिष्ठ नागरिक पेंशन और सहायता",
+        general: "सामान्य नागरिक योजनाएं"
+      },
       validation: {
         required: "यह फ़ील्ड आवश्यक है",
         phoneOrEmailInvalid: "कृपया एक वैध मोबाइल नंबर या ईमेल दर्ज करें",
@@ -375,8 +419,38 @@ export const translations = {
       cancel: "रद्द करें",
       profileUpdated: "प्रोफ़ाइल सफलतापूर्वक अपडेट की गई!",
       guestUser: "अतिथि उपयोगकर्ता",
-      settingsTitle: "सेटनिंग्स",
-      settingsSubtitle: "अपने खाता सेटिंग्स और थीम प्राथमिकताओं को प्रबंधित करें।"
+      settingsTitle: "सेटिंग्स",
+      settingsSubtitle: "अपने खाता सेटिंग्स और थीम प्राथमिकताओं को प्रबंधित करें।",
+      clearHistoryBtn: "बातचीत इतिहास मिटाएं",
+      welcomeDesc: "सरकारी योजनाओं, स्वास्थ्य सेवाओं, और कृषि सहायता के बारे में आसान भाषा में जानकारी प्राप्त करें।",
+      selectTopic: "पूछने के लिए नीचे दिए गए विषयों में से चुनें",
+      backToDashboard: "डैशबोर्ड पर वापस जाएं",
+      accountActions: "खाता क्रियाएं",
+      accountActionsDesc: "अपने सत्र से लॉगआउट करें।",
+      notifPrefUpdated: "अधिसूचना प्राथमिकता सहेजी गई",
+      allChatsDeleted: "सभी बातचीत मिटा दी गई हैं",
+      schemeBadge: "योजना",
+      emailLabel: "ईमेल पता",
+      enterName: "अपना नाम दर्ज करें",
+      onlineStatus: "ऑनलाइन",
+      listeningSpeak: "सुन रहे हैं... बोलें",
+      selectQuickQuery: "त्वरित प्रश्न चुनें",
+      apiSettingsTitle: "चैटबॉट एपीआई कॉन्फ़िगरेशन",
+      apiSettingsSubtitle: "स्थानीय या क्लाउड ओपन-सोर्स एआई मॉडल को कॉन्फ़िगर करें।",
+      apiProviderLabel: "एपीआई प्रदाता",
+      apiProviderMock: "सिम्युलेटेड इंजन",
+      apiProviderMockDesc: "तेज़ स्थानीय प्रतिक्रियाएं, पूर्वावलोकन के लिए आदर्श।",
+      apiProviderOllama: "स्थानीय ओल्लामा (Ollama)",
+      apiProviderOllamaDesc: "अपने डिवाइस पर निजी तौर पर ओपन-सोर्स मॉडल चलाएं।",
+      apiProviderOpenRouter: "ओपनराउटर क्लाउड",
+      apiProviderOpenRouterDesc: "क्लाउड में मुफ्त ओपन-सोर्स मॉडल का उपयोग करें।",
+      apiProviderHF: "हगिंग फेस (Hugging Face)",
+      apiProviderHFDesc: "मुफ्त टोकन के साथ सर्वरलेस ओपन-सोर्स मॉडल का उपयोग करें।",
+      apiUrlLabel: "एपीआई एंडपॉइंट यूआरएल",
+      apiModelLabel: "मॉडल पहचानकर्ता",
+      apiKeyLabel: "एपीआई कुंजी / एक्सेस टोकन",
+      apiFallbackWarning: "एपीआई से कनेक्शन विफल रहा। सिम्युलेटेड इंजन पर वापस जा रहे हैं।",
+      apiSuccessMsg: "एपीआई सेटिंग्स सफलतापूर्वक सहेजी गईं!"
     }
   }
 };

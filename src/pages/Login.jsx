@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
-import { Eye, EyeOff, Sparkles, ArrowLeft, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Leaf, ArrowLeft, Loader2 } from "lucide-react";
 
 export const Login = () => {
   const { t } = useLanguage();
@@ -74,31 +74,34 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative bg-gradient-to-b from-stone-50 via-stone-50/50 to-white px-4 py-12 overflow-hidden">
-      {/* Background Decorative Glow Gradients */}
-      <div className="absolute top-1/4 left-1/4 w-80 h-80 rounded-full bg-orange-200/20 blur-[80px] animate-pulse-slow -z-10" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-emerald-200/20 blur-[100px] animate-pulse-slow-reverse -z-10" />
+    <div className="min-h-screen flex items-center justify-center relative px-4 py-12 overflow-hidden hero-bg">
+      {/* Background Glow Gradients */}
+      <div className="absolute top-1/4 left-1/4 w-80 h-80 rounded-full bg-green-200/20 blur-[90px] animate-pulse-slow -z-10" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-orange-200/15 blur-[110px] animate-pulse-slow-reverse -z-10" />
 
       {/* Back to Home Button */}
       <Link
         to="/"
-        className="absolute top-6 left-6 inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-emerald-700 transition-colors"
+        className="absolute top-6 left-6 inline-flex items-center gap-1.5 text-sm font-semibold text-stone-600 hover:text-green-700 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>{t("nav.home")}</span>
       </Link>
 
-      <div className="w-full max-w-md bg-white border border-stone-200/80 rounded-3xl p-8 sm:p-10 shadow-2xl glass-panel relative">
+      <div className="w-full max-w-md bg-white border-2 border-stone-200 rounded-3xl p-8 sm:p-10 shadow-2xl glass-panel relative">
+
+        {/* Saffron accent top */}
+        <div className="absolute top-0 left-0 right-0 h-1 rounded-t-3xl bg-gradient-to-r from-orange-500 via-amber-400 to-green-600" />
         
         {/* Header */}
         <div className="text-center space-y-3 mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-tr from-orange-500 via-amber-500 to-emerald-600 shadow-md shadow-amber-500/10 mb-2">
-            <Sparkles className="w-6 h-6 text-white fill-white/10" />
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-orange-500 via-amber-400 to-green-600 shadow-lg shadow-green-600/20 mb-2">
+            <Leaf className="w-7 h-7 text-white fill-white/25" />
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
             {t("auth.loginTitle")}
           </h2>
-          <p className="text-slate-500 text-sm leading-relaxed">
+          <p className="text-stone-500 text-sm leading-relaxed">
             {t("auth.loginSubtitle")}
           </p>
         </div>
@@ -123,10 +126,10 @@ export const Login = () => {
               value={phoneOrEmail}
               onChange={(e) => setPhoneOrEmail(e.target.value)}
               placeholder="e.g. 9876543210 or name@example.com"
-              className={`w-full px-4.5 py-3 rounded-2xl border text-sm bg-stone-50/50 outline-none transition-all ${
+              className={`w-full px-4.5 py-3.5 rounded-2xl border text-sm bg-stone-50/60 outline-none transition-all ${
                 errors.phoneOrEmail 
-                  ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200" 
-                  : "border-stone-250 focus:border-emerald-500 focus:bg-white"
+                  ? "border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-100" 
+                  : "border-stone-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 focus:bg-white"
               }`}
             />
             {errors.phoneOrEmail && (
@@ -148,10 +151,10 @@ export const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••"
-                className={`w-full pl-4.5 pr-11 py-3 rounded-2xl border text-sm bg-stone-50/50 outline-none transition-all ${
+                className={`w-full pl-4.5 pr-11 py-3.5 rounded-2xl border text-sm bg-stone-50/60 outline-none transition-all ${
                   errors.password 
-                    ? "border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-200" 
-                    : "border-stone-250 focus:border-emerald-500 focus:bg-white"
+                    ? "border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-100" 
+                    : "border-stone-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 focus:bg-white"
                 }`}
               />
               <button
@@ -171,16 +174,16 @@ export const Login = () => {
 
           {/* Remember Me & Forgot Password */}
           <div className="flex items-center justify-between text-xs font-medium pt-1">
-            <label className="flex items-center gap-2 text-slate-600 cursor-pointer select-none">
+            <label className="flex items-center gap-2 text-stone-600 cursor-pointer select-none">
               <input
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="w-4.5 h-4.5 rounded-lg border-stone-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer accent-emerald-600"
+                className="w-4.5 h-4.5 rounded border-stone-300 text-green-700 focus:ring-green-500 cursor-pointer accent-green-700"
               />
               <span>{t("auth.rememberMe")}</span>
             </label>
-            <a href="#" className="text-emerald-700 hover:text-emerald-800 transition-colors">
+            <a href="#" className="text-green-700 hover:text-green-800 transition-colors font-semibold">
               {t("auth.forgotPassword")}
             </a>
           </div>
@@ -191,7 +194,7 @@ export const Login = () => {
             <button
               type="submit"
               disabled={isSubmitting || isGuestSubmitting}
-              className="w-full bg-gradient-to-r from-emerald-600 to-teal-700 text-white font-bold py-3.5 rounded-2xl shadow-lg hover:shadow-emerald-600/10 hover:-translate-y-0.5 active:scale-98 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
+              className="w-full bg-gradient-to-r from-green-700 to-emerald-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-green-700/20 hover:shadow-green-700/30 hover:-translate-y-0.5 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
             >
               {isSubmitting ? (
                 <Loader2 className="w-4 h-4 animate-spin text-white" />
@@ -204,10 +207,10 @@ export const Login = () => {
               type="button"
               onClick={handleGuestLogin}
               disabled={isSubmitting || isGuestSubmitting}
-              className="w-full bg-stone-50 border border-stone-200 text-slate-700 font-semibold py-3.5 rounded-2xl hover:bg-stone-100 hover:border-stone-300 active:scale-98 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
+              className="w-full bg-stone-50 border-2 border-stone-200 text-stone-700 font-semibold py-4 rounded-2xl hover:bg-stone-100 hover:border-stone-300 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
             >
               {isGuestSubmitting ? (
-                <Loader2 className="w-4 h-4 animate-spin text-emerald-600" />
+                <Loader2 className="w-4 h-4 animate-spin text-green-600" />
               ) : null}
               <span>{t("auth.guestBtn")}</span>
             </button>
@@ -215,9 +218,9 @@ export const Login = () => {
         </form>
 
         {/* Bottom Redirect */}
-        <div className="mt-8 text-center text-xs font-medium text-slate-500 border-t border-stone-100 pt-6">
+        <div className="mt-8 text-center text-xs font-medium text-stone-500 border-t border-stone-100 pt-6">
           <span>{t("auth.noAccount")}{" "}</span>
-          <Link to="/signup" className="text-emerald-700 hover:text-emerald-800 hover:underline transition-colors font-bold">
+          <Link to="/signup" className="text-green-700 hover:text-green-800 hover:underline transition-colors font-bold">
             {t("auth.createAccount")}
           </Link>
         </div>

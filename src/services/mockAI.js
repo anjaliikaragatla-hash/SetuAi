@@ -3,7 +3,7 @@
 // TO MIGRATE TO REAL API: replace the `getMockResponse` function body
 // with a fetch('/api/chat', { method:'POST', body: JSON.stringify({message, language}) })
 
-const schemes = {
+export const schemes = {
   en: {
     farming: {
       type: "scheme_card",
@@ -412,20 +412,134 @@ const detectTopic = (message) => {
   return "default";
 };
 
-// Main entry point — replace body with fetch() for real API
-export const getMockResponse = async (message, language = "en") => {
-  // Simulate network delay
-  await new Promise((resolve) => setTimeout(resolve, 1200 + Math.random() * 600));
+const getApiConfig = () => {
+  const provider = localStorage.getItem("setuai_api_provider") || "mock";
+  const url = localStorage.getItem("setuai_api_url") || "http://localhost:11434";
+  const model = localStorage.getItem("setuai_api_model") || "";
+  const key = localStorage.getItem("setuai_api_key") || "";
 
+  let resolvedModel = model;
+  if (!model) {
+    if (provider === "ollama") resolvedModel = "llama3";
+    else if (provider === "openrouter") resolvedModel = "meta-llama/llama-3-8b-instruct:free";
+    else if (provider === "huggingface") resolvedModel = "Qwen/Qwen2.5-7B-Instruct";
+  }
+
+  return { provider, url, model: resolvedModel, key };
+};
+
+const systemPrompt = `You are SetuAI, an AI citizen assistant for Indian government schemes.
+Answer the user's queries in a friendly, clear, and structured format. Use bullet points and bold text for key details.
+Always respond in the active language of the query (if they write in Hindi/Devanagari, reply in Hindi. If they write in English, reply in English).`;
+
+const callOllama = async (config, message) => {
+  const response = await fetch(`${config.url}/v1/chat/completions`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: config.model,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: message }
+      ],
+      temperature: 0.5
+    })
+  });
+  if (!response.ok) throw new Error(`Ollama error: ${response.statusText}`);
+  const data = await response.json();
+  return data.choices[0].message.content;
+};
+
+const callOpenRouter = async (config, message) => {
+  if (!config.key) throw new Error("API Key is missing for OpenRouter");
+  const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${config.key}`
+    },
+    body: JSON.stringify({
+      model: config.model,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: message }
+      ]
+    })
+  });
+  if (!response.ok) throw new Error(`OpenRouter error: ${response.statusText}`);
+  const data = await response.json();
+  return data.choices[0].message.content;
+};
+
+const callHuggingFace = async (config, message) => {
+  const headers = { "Content-Type": "application/json" };
+  if (config.key) {
+    headers["Authorization"] = `Bearer ${config.key}`;
+  }
+  const response = await fetch("https://api-inference.huggingface.co/v1/chat/completions", {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      model: config.model,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: message }
+      ],
+      max_tokens: 1000
+    })
+  });
+  if (!response.ok) throw new Error(`Hugging Face error: ${response.statusText}`);
+  const data = await response.json();
+  return data.choices[0].message.content;
+};
+
+const getLocalResponse = async (message, language) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 500));
   const lang = language === "hi" ? "hi" : "en";
   const topic = detectTopic(message);
   const response = schemes[lang][topic] || schemes[lang].default;
 
+  const formattedResponse = { ...response };
+  if (formattedResponse.type === "text" && formattedResponse.message) {
+    formattedResponse.text = formattedResponse.message;
+    delete formattedResponse.message;
+  }
+
   return {
-    ...response,
+    ...formattedResponse,
     topic,
     id: `ai-${Date.now()}`
   };
+};
+
+export const getMockResponse = async (message, language = "en") => {
+  const config = getApiConfig();
+
+  if (config.provider === "mock") {
+    return getLocalResponse(message, language);
+  }
+
+  try {
+    let textResult = "";
+    if (config.provider === "ollama") {
+      textResult = await callOllama(config, message);
+    } else if (config.provider === "openrouter") {
+      textResult = await callOpenRouter(config, message);
+    } else if (config.provider === "huggingface") {
+      textResult = await callHuggingFace(config, message);
+    }
+
+    return {
+      type: "text",
+      text: textResult,
+      topic: detectTopic(message),
+      id: `ai-${Date.now()}`
+    };
+  } catch (err) {
+    console.error("AI API Call failed, falling back to mock:", err);
+    window.dispatchEvent(new CustomEvent("setuai_api_fallback"));
+    return getLocalResponse(message, language);
+  }
 };
 
 export const getSuggestionChips = (language, userType) => {

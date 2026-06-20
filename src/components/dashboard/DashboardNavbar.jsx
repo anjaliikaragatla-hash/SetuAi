@@ -82,7 +82,7 @@ export const DashboardNavbar = ({ onToggleSidebar }) => {
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700/80 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition cursor-pointer"
           >
             <Globe className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
-            <span>{language === "en" ? "हिन्दी" : "English"}</span>
+            <span>{language === "en" ? "English" : "हिन्दी"}</span>
           </button>
 
           {/* Notifications Dropdown Container */}

@@ -8,82 +8,107 @@ export const Features = () => {
   const features = [
     {
       id: "schemes",
-      icon: <FileText className="w-6 h-6 text-orange-600" />,
+      icon: <FileText className="w-7 h-7 text-orange-600" />,
+      emoji: "📋",
       title: t("features.schemes.title"),
       desc: t("features.schemes.desc"),
-      bgGradient: "from-orange-500/10 to-amber-500/10",
-      borderColor: "hover:border-orange-300"
+      bgColor: "bg-orange-50",
+      borderColor: "border-orange-200",
+      hoverBorder: "hover:border-orange-400",
+      iconBg: "bg-orange-100",
+      tagColor: "text-orange-700 bg-orange-50 border-orange-200"
     },
     {
       id: "assistant",
-      icon: <MessageSquare className="w-6 h-6 text-emerald-600" />,
+      icon: <MessageSquare className="w-7 h-7 text-green-700" />,
+      emoji: "💬",
       title: t("features.assistant.title"),
       desc: t("features.assistant.desc"),
-      bgGradient: "from-emerald-500/10 to-teal-500/10",
-      borderColor: "hover:border-emerald-300"
+      bgColor: "bg-green-50",
+      borderColor: "border-green-200",
+      hoverBorder: "hover:border-green-500",
+      iconBg: "bg-green-100",
+      tagColor: "text-green-700 bg-green-50 border-green-200"
     },
     {
       id: "multilingual",
-      icon: <Languages className="w-6 h-6 text-indigo-600" />,
+      icon: <Languages className="w-7 h-7 text-blue-700" />,
+      emoji: "🌐",
       title: t("features.multilingual.title"),
       desc: t("features.multilingual.desc"),
-      bgGradient: "from-indigo-500/10 to-violet-500/10",
-      borderColor: "hover:border-indigo-300"
+      bgColor: "bg-blue-50",
+      borderColor: "border-blue-200",
+      hoverBorder: "hover:border-blue-400",
+      iconBg: "bg-blue-100",
+      tagColor: "text-blue-700 bg-blue-50 border-blue-200"
     },
     {
       id: "voice",
-      icon: <Mic className="w-6 h-6 text-amber-600" />,
+      icon: <Mic className="w-7 h-7 text-amber-700" />,
+      emoji: "🎙️",
       title: t("features.voice.title"),
       desc: t("features.voice.desc"),
-      bgGradient: "from-amber-500/10 to-yellow-500/10",
-      borderColor: "hover:border-amber-300"
+      bgColor: "bg-amber-50",
+      borderColor: "border-amber-200",
+      hoverBorder: "hover:border-amber-400",
+      iconBg: "bg-amber-100",
+      tagColor: "text-amber-700 bg-amber-50 border-amber-200"
     }
   ];
 
   return (
-    <section id="features" className="py-24 bg-white relative">
-      {/* Background shape */}
-      <div className="absolute top-1/2 left-0 w-80 h-80 rounded-full bg-emerald-50/40 blur-[80px] -z-10" />
+    <section id="features" className="py-24 section-white relative overflow-hidden">
+      {/* Decorative backgrounds */}
+      <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-green-100/30 blur-[100px] -z-10" />
+      <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full bg-orange-100/25 blur-[80px] -z-10" />
+      <div className="absolute inset-0 pattern-dots opacity-40 -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <span className="text-xs font-bold text-emerald-700 tracking-widest uppercase bg-emerald-50 px-3.5 py-1.5 rounded-full">
+          <span className="inline-block text-xs font-bold text-green-700 tracking-widest uppercase bg-green-50 border border-green-200 px-4 py-1.5 rounded-full">
             {t("features.badge")}
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight">
             {t("features.title")}
           </h2>
-          <p className="text-slate-500 text-base sm:text-lg">
+          <p className="text-stone-500 text-base sm:text-lg leading-relaxed">
             {t("features.subtitle")}
           </p>
         </div>
 
         {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((item) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {features.map((item, idx) => (
             <div
               key={item.id}
-              className={`group relative rounded-3xl p-8 bg-white border border-stone-150 transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 cursor-default ${item.borderColor}`}
+              className={`group relative rounded-2xl p-7 bg-white border-2 ${item.borderColor} ${item.hoverBorder} transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-default`}
+              style={{ animationDelay: `${idx * 80}ms` }}
             >
-              {/* Subtle hover background glow */}
-              <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${item.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10`} />
+              {/* Number watermark */}
+              <div className="absolute top-4 right-5 text-5xl font-black text-stone-100 select-none leading-none">
+                {String(idx + 1).padStart(2, "0")}
+              </div>
 
-              {/* Icon Container */}
-              <div className="w-12 h-12 rounded-2xl bg-stone-50 group-hover:bg-white flex items-center justify-center shadow-sm group-hover:shadow transition-all duration-300 mb-6">
+              {/* Icon */}
+              <div className={`w-14 h-14 rounded-2xl ${item.iconBg} flex items-center justify-center mb-5 shadow-sm group-hover:scale-110 transition-transform duration-300`}>
                 {item.icon}
               </div>
 
-              {/* Title */}
-              <h3 className="text-lg font-bold text-slate-800 mb-3 group-hover:text-emerald-950 transition-colors">
+              {/* Content */}
+              <h3 className="text-base font-bold text-stone-800 mb-2.5 group-hover:text-green-800 transition-colors">
                 {item.title}
               </h3>
-
-              {/* Description */}
-              <p className="text-slate-500 text-sm leading-relaxed">
+              <p className="text-stone-500 text-sm leading-relaxed">
                 {item.desc}
               </p>
+
+              {/* Bottom tag */}
+              <div className={`mt-5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold border ${item.tagColor}`}>
+                <span>{item.emoji}</span>
+                <span>Feature {idx + 1}</span>
+              </div>
             </div>
           ))}
         </div>

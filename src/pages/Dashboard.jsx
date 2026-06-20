@@ -19,9 +19,19 @@ export const Dashboard = () => {
 
   const [activeChatId, setActiveChatId] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [apiWarning, setApiWarning] = useState(false);
   const messagesEndRef = useRef(null);
 
   const { messages, isTyping, error, loadMessages, sendMessage } = useChat(activeChatId, language);
+
+  useEffect(() => {
+    const handleFallback = () => {
+      setApiWarning(true);
+      setTimeout(() => setApiWarning(false), 5000);
+    };
+    window.addEventListener("setuai_api_fallback", handleFallback);
+    return () => window.removeEventListener("setuai_api_fallback", handleFallback);
+  }, []);
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -116,9 +126,7 @@ export const Dashboard = () => {
                     {t("dashboard.welcome")}, {user?.name || t("dashboard.guestUser")}!
                   </h2>
                   <p className="text-slate-500 dark:text-slate-400 text-sm md:text-base max-w-lg mx-auto leading-relaxed">
-                    {language === "hi"
-                      ? "सरकारी योजनाओं, स्वास्थ्य सेवाओं, और कृषि सहायता के बारे में आसान भाषा में जानकारी प्राप्त करें।"
-                      : "Discover government schemes, healthcare support, and agricultural guidance in your preferred language."}
+                    {t("dashboard.welcomeDesc")}
                   </p>
                 </div>
               </div>
@@ -126,7 +134,7 @@ export const Dashboard = () => {
               {/* Suggestion Chips */}
               <div className="space-y-3">
                 <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                  {language === "hi" ? "पूछने के लिए नीचे दिए गए विषयों में से चुनें" : "Select a topic below to start asking"}
+                  {t("dashboard.selectTopic")}
                 </p>
                 <SuggestionChips
                   language={language}
@@ -159,11 +167,24 @@ export const Dashboard = () => {
           )}
         </div>
 
-        {/* Sticky Input Bar at Bottom */}
-        <div className="border-t border-slate-100 dark:border-slate-800/80 bg-white/60 dark:bg-slate-900/40 backdrop-blur-md">
-          <ChatInput onSend={handleSendMessage} isDisabled={isTyping} />
+        {/* Input Box Area */}
+        <div className="border-t border-slate-100/80 dark:border-slate-800/30 bg-white/70 dark:bg-slate-900/60 backdrop-blur-md px-4 py-4 md:px-0">
+          <div className="max-w-4xl mx-auto">
+            <ChatInput
+              onSend={handleSendMessage}
+              isDisabled={isTyping}
+            />
+          </div>
         </div>
       </div>
+
+      {/* Fallback Toast Warning */}
+      {apiWarning && (
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-amber-600 dark:bg-amber-500 text-white text-xs px-5 py-3 rounded-2xl shadow-xl border border-amber-500 dark:border-amber-400 animate-bounce flex items-center gap-2.5">
+          <AlertCircle className="h-5 w-5 text-white flex-shrink-0" />
+          <span>{t("dashboard.apiFallbackWarning")}</span>
+        </div>
+      )}
     </div>
   );
 };

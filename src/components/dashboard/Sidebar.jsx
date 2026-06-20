@@ -137,7 +137,9 @@ export const Sidebar = ({ activeId, onSelectChat, isOpen, onClose }) => {
               <div className="flex items-center gap-2.5 overflow-hidden">
                 <MessageSquare className={`h-4 w-4 flex-shrink-0 ${activeId === c.id ? "text-emerald-400" : "text-slate-500"}`} />
                 <span className="text-xs font-medium truncate max-w-[150px] md:max-w-[170px]">
-                  {c.title}
+                  {c.title === "New Chat" || c.title === "नई बातचीत"
+                    ? t("dashboard.newChatBtn")
+                    : c.title}
                 </span>
               </div>
               <button

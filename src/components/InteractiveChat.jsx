@@ -104,7 +104,7 @@ export const InteractiveChat = () => {
             <h4 className="font-semibold text-base leading-none">SetuAI Assistant</h4>
             <span className="text-xs text-emerald-100 flex items-center gap-1 mt-1">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-300 animate-ping"></span>
-              {language === "hi" ? "ऑनलाइन" : "Online"}
+              {t("dashboard.onlineStatus")}
             </span>
           </div>
         </div>
@@ -165,7 +165,7 @@ export const InteractiveChat = () => {
                 </div>
               </div>
               <span className="text-xs font-medium text-amber-800">
-                {language === "hi" ? "सुन रहे हैं... बोलें" : "Listening... Speak now"}
+                {t("dashboard.listeningSpeak")}
               </span>
             </div>
           </div>
@@ -193,7 +193,7 @@ export const InteractiveChat = () => {
       {messages.length === 1 && !isTyping && !isListening && (
         <div className="px-4 py-2 bg-stone-100/40 border-t border-stone-200/50">
           <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
-            {language === "hi" ? "त्वरित प्रश्न चुनें" : "Select a quick query"}
+            {t("dashboard.selectQuickQuery")}
           </p>
           <div className="flex flex-wrap gap-2">
             <button

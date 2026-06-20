@@ -1,11 +1,32 @@
 import React, { useState } from "react";
 import { Sparkles, User, FileText, CheckCircle, Gift, Info, Calendar } from "lucide-react";
 import { useLanguage } from "../../context/LanguageContext";
+import { schemes } from "../../services/mockAI";
 
 export const ChatMessage = ({ message }) => {
-  const { t } = useLanguage();
-  const { sender, text, type, greeting, cards, followUp, timestamp } = message;
+  const { t, language } = useLanguage();
+  const { sender, text, type, greeting, cards, followUp, timestamp, topic } = message;
   const isUser = sender === "user";
+
+  // Resolve dynamically translated content for scheme cards
+  let displayGreeting = greeting;
+  let displayCards = cards;
+  let displayFollowUp = followUp;
+
+  if (type === "scheme_card" && topic) {
+    const lang = language === "hi" ? "hi" : "en";
+    const localizedTopicData = schemes[lang]?.[topic];
+    if (localizedTopicData) {
+      if (localizedTopicData.greeting) displayGreeting = localizedTopicData.greeting;
+      if (localizedTopicData.followUp) displayFollowUp = localizedTopicData.followUp;
+      if (cards && localizedTopicData.cards) {
+        displayCards = cards.map((card) => {
+          const matchedCard = localizedTopicData.cards.find((c) => c.id === card.id);
+          return matchedCard ? { ...card, ...matchedCard } : card;
+        });
+      }
+    }
+  }
   const [toastMessage, setToastMessage] = useState("");
 
   const handleActionClick = (e, actionType) => {
@@ -93,12 +114,12 @@ export const ChatMessage = ({ message }) => {
             <p className="whitespace-pre-wrap">{text}</p>
           ) : type === "scheme_card" ? (
             <div className="space-y-6">
-              {greeting && <p className="mb-4">{greeting}</p>}
+              {displayGreeting && <p className="mb-4">{displayGreeting}</p>}
 
               {/* Cards Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-4">
-                {cards &&
-                  cards.map((card) => (
+                {displayCards &&
+                  displayCards.map((card) => (
                     <div
                       key={card.id}
                       className="flex flex-col bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
@@ -110,7 +131,7 @@ export const ChatMessage = ({ message }) => {
                             {card.schemeName}
                           </h4>
                           <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300">
-                            Scheme
+                            {t("dashboard.schemeBadge")}
                           </span>
                         </div>
                         <p className="mt-2 text-xs text-slate-500 dark:text-slate-400 line-clamp-2">
@@ -188,7 +209,7 @@ export const ChatMessage = ({ message }) => {
                   ))}
               </div>
 
-              {followUp && <p className="mt-4 italic">{followUp}</p>}
+              {displayFollowUp && <p className="mt-4 italic">{displayFollowUp}</p>}
             </div>
           ) : (
             <div className="space-y-1">{formatMessageText(text)}</div>

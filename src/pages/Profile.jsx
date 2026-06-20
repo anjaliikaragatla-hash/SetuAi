@@ -92,11 +92,11 @@ export const Profile = () => {
   }
 
   const roleCards = [
-    { id: "farmer", label: t("auth.userTypes.farmer"), desc: language === "hi" ? "कृषि योजनाएं और फसल सहायता" : "Farming schemes & crop aid", icon: <Sprout className="h-5 w-5 text-amber-600" /> },
-    { id: "student", label: t("auth.userTypes.student"), desc: language === "hi" ? "छात्रवृत्ति और शिक्षा सहायता" : "Scholarships & education aid", icon: <GraduationCap className="h-5 w-5 text-blue-600" /> },
-    { id: "woman", label: t("auth.userTypes.woman"), desc: language === "hi" ? "महिला सशक्तिकरण और कल्याण" : "Women empowerment & welfare", icon: <Heart className="h-5 w-5 text-rose-600" /> },
-    { id: "senior", label: t("auth.userTypes.senior"), desc: language === "hi" ? "वरिष्ठ नागरिक पेंशन और सहायता" : "Senior pension & health benefits", icon: <Calendar className="h-5 w-5 text-indigo-600" /> },
-    { id: "general", label: t("auth.userTypes.general"), desc: language === "hi" ? "सामान्य नागरिक योजनाएं" : "General public services", icon: <HelpCircle className="h-5 w-5 text-slate-600" /> },
+    { id: "farmer", label: t("auth.userTypes.farmer"), desc: t("auth.userTypesDesc.farmer"), icon: <Sprout className="h-5 w-5 text-amber-600" /> },
+    { id: "student", label: t("auth.userTypes.student"), desc: t("auth.userTypesDesc.student"), icon: <GraduationCap className="h-5 w-5 text-blue-600" /> },
+    { id: "woman", label: t("auth.userTypes.woman"), desc: t("auth.userTypesDesc.woman"), icon: <Heart className="h-5 w-5 text-rose-600" /> },
+    { id: "senior", label: t("auth.userTypes.senior"), desc: t("auth.userTypesDesc.senior"), icon: <Calendar className="h-5 w-5 text-indigo-600" /> },
+    { id: "general", label: t("auth.userTypes.general"), desc: t("auth.userTypesDesc.general"), icon: <HelpCircle className="h-5 w-5 text-slate-600" /> },
   ];
 
   return (
@@ -110,7 +110,7 @@ export const Profile = () => {
           className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition cursor-pointer"
         >
           <ArrowLeft className="h-4 w-4" />
-          {language === "hi" ? "डैशबोर्ड पर वापस जाएं" : "Back to Dashboard"}
+          {t("dashboard.backToDashboard")}
         </button>
 
         {/* Heading */}
@@ -141,7 +141,7 @@ export const Profile = () => {
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder={language === "hi" ? "अपना नाम दर्ज करें" : "Enter your full name"}
+                  placeholder={t("dashboard.enterName")}
                   className={`w-full pl-11 pr-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border text-sm text-slate-800 dark:text-slate-100 placeholder-slate-450 dark:placeholder-slate-500 outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all ${
                     errors.name ? "border-rose-350 dark:border-rose-900/60" : "border-slate-200 dark:border-slate-700/80"
                   }`}
@@ -174,7 +174,7 @@ export const Profile = () => {
             {/* Email Address */}
             <div className="space-y-2">
               <label htmlFor="email" className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
-                {language === "hi" ? "ईमेल पता" : "Email Address"}
+                {t("dashboard.emailLabel")}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-400" />
