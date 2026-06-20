@@ -9,74 +9,104 @@ export const AuthProvider = ({ children }) => {
 
   // Check for active sessions on load
   useEffect(() => {
-    const storedUser = localStorage.getItem("setuai_user");
-    const storedGuest = localStorage.getItem("setuai_guest");
+    const checkSession = async () => {
+      const token = localStorage.getItem("setuai_token");
+      const storedGuest = localStorage.getItem("setuai_guest");
 
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    } else if (storedGuest === "true") {
-      setIsGuest(true);
-    }
-    setLoading(false);
+      if (token) {
+        try {
+          const res = await fetch("/api/auth/me", {
+            headers: {
+              "Authorization": `Bearer ${token}`
+            }
+          });
+          if (res.ok) {
+            const userData = await res.json();
+            setUser(userData);
+          } else {
+            // Token expired or invalid
+            logout();
+          }
+        } catch (err) {
+          console.error("Session check failed, using cached user if offline:", err);
+          const cachedUser = localStorage.getItem("setuai_user");
+          if (cachedUser) setUser(JSON.parse(cachedUser));
+        }
+      } else if (storedGuest === "true") {
+        setIsGuest(true);
+      }
+      setLoading(false);
+    };
+
+    checkSession();
   }, []);
 
-  const login = (phoneOrEmail, password) => {
-    // Return a Promise to simulate server response
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // Fetch all registered users to look up
-        const users = JSON.parse(localStorage.getItem("setuai_users") || "[]");
-        const foundUser = users.find(
-          (u) => (u.email === phoneOrEmail || u.phone === phoneOrEmail) && u.password === password
-        );
+  const login = async (phoneOrEmail, password) => {
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: phoneOrEmail, password })
+      });
 
-        if (foundUser) {
-          // Exclude password from current session storage
-          const { password: _, ...sessionUser } = foundUser;
-          setUser(sessionUser);
-          setIsGuest(false);
-          localStorage.setItem("setuai_user", JSON.stringify(sessionUser));
-          localStorage.removeItem("setuai_guest");
-          resolve(sessionUser);
-        } else {
-          // If no custom user exists, check default demo user
-          if ((phoneOrEmail === "9876543210" || phoneOrEmail === "demo@setuai.org") && password === "123456") {
-            const demoUser = {
-              name: "Ramesh Kumar",
-              phone: "9876543210",
-              email: "demo@setuai.org",
-              type: "farmer",
-              language: "hi"
-            };
-            setUser(demoUser);
-            setIsGuest(false);
-            localStorage.setItem("setuai_user", JSON.stringify(demoUser));
-            localStorage.removeItem("setuai_guest");
-            resolve(demoUser);
-          } else {
-            reject(new Error("Invalid mobile/email or password. Try 9876543210 / 123456 as demo."));
-          }
-        }
-      }, 1000);
-    });
+      if (!res.ok) {
+        const errorText = await res.text();
+        // Extract message from ResponseStatusException JSON structure if available
+        let message = errorText;
+        try {
+          const errObj = JSON.parse(errorText);
+          message = errObj.message || message;
+        } catch (e) {}
+        throw new Error(message || "Invalid mobile/email or password.");
+      }
+
+      const token = await res.text(); // Returns the JWT token string
+      localStorage.setItem("setuai_token", token);
+
+      // Now fetch user details
+      const meRes = await fetch("/api/auth/me", {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (!meRes.ok) throw new Error("Failed to retrieve user profile");
+
+      const userData = await meRes.json();
+      setUser(userData);
+      setIsGuest(false);
+      localStorage.setItem("setuai_user", JSON.stringify(userData));
+      localStorage.removeItem("setuai_guest");
+      return userData;
+    } catch (err) {
+      throw new Error(err.message || "Connection to server failed.");
+    }
   };
 
-  const signUp = (userData) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const users = JSON.parse(localStorage.getItem("setuai_users") || "[]");
-        users.push(userData);
-        localStorage.setItem("setuai_users", JSON.stringify(users));
+  const signUp = async (userData) => {
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: userData.name,
+          email: userData.email,
+          password: userData.password
+        })
+      });
 
-        // Auto-login after sign-up
-        const { password: _, ...sessionUser } = userData;
-        setUser(sessionUser);
-        setIsGuest(false);
-        localStorage.setItem("setuai_user", JSON.stringify(sessionUser));
-        localStorage.removeItem("setuai_guest");
-        resolve(sessionUser);
-      }, 1000);
-    });
+      if (!res.ok) {
+        const errorText = await res.text();
+        let message = errorText;
+        try {
+          const errObj = JSON.parse(errorText);
+          message = errObj.message || message;
+        } catch (e) {}
+        throw new Error(message || "Sign up failed. Please try again.");
+      }
+
+      // Auto-login after sign-up
+      return await login(userData.email, userData.password);
+    } catch (err) {
+      throw new Error(err.message || "Connection to server failed.");
+    }
   };
 
   const loginAsGuest = () => {
@@ -86,6 +116,7 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         localStorage.setItem("setuai_guest", "true");
         localStorage.removeItem("setuai_user");
+        localStorage.removeItem("setuai_token");
         resolve();
       }, 800);
     });
@@ -96,15 +127,27 @@ export const AuthProvider = ({ children }) => {
     setIsGuest(false);
     localStorage.removeItem("setuai_user");
     localStorage.removeItem("setuai_guest");
+    localStorage.removeItem("setuai_token");
   };
 
   const updateUser = (updatedData) => {
     setUser((prev) => {
       const updated = { ...prev, ...updatedData };
       localStorage.setItem("setuai_user", JSON.stringify(updated));
+      // Save to server if token is available
+      const token = localStorage.getItem("setuai_token");
+      if (token) {
+        fetch("/api/auth/profile", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify(updated)
+        }).catch(err => console.error("Failed to sync profile update to server:", err));
+      }
       return updated;
     });
-    // If guest, convert to user upon profile save
     if (isGuest) {
       setIsGuest(false);
       localStorage.removeItem("setuai_guest");

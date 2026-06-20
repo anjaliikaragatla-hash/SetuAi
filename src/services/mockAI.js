@@ -513,33 +513,39 @@ const getLocalResponse = async (message, language) => {
 };
 
 export const getMockResponse = async (message, language = "en") => {
-  const config = getApiConfig();
+  const token = localStorage.getItem("setuai_token");
 
-  if (config.provider === "mock") {
-    return getLocalResponse(message, language);
-  }
+  // If user is logged in, query the real Spring Boot backend AI service
+  if (token) {
+    try {
+      const res = await fetch("/api/ai/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ message, language })
+      });
 
-  try {
-    let textResult = "";
-    if (config.provider === "ollama") {
-      textResult = await callOllama(config, message);
-    } else if (config.provider === "openrouter") {
-      textResult = await callOpenRouter(config, message);
-    } else if (config.provider === "huggingface") {
-      textResult = await callHuggingFace(config, message);
+      if (!res.ok) {
+        throw new Error(await res.text() || "Failed to fetch response from backend");
+      }
+
+      const data = await res.json();
+      return {
+        type: "text",
+        text: data.response,
+        topic: detectTopic(message),
+        id: `ai-${Date.now()}`
+      };
+    } catch (err) {
+      console.error("Real AI request failed, falling back to mock database:", err);
+      return getLocalResponse(message, language);
     }
-
-    return {
-      type: "text",
-      text: textResult,
-      topic: detectTopic(message),
-      id: `ai-${Date.now()}`
-    };
-  } catch (err) {
-    console.error("AI API Call failed, falling back to mock:", err);
-    window.dispatchEvent(new CustomEvent("setuai_api_fallback"));
-    return getLocalResponse(message, language);
   }
+
+  // Guest / Offline fallback
+  return getLocalResponse(message, language);
 };
 
 export const getSuggestionChips = (language, userType) => {
