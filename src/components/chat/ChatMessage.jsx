@@ -30,10 +30,20 @@ export const ChatMessage = ({ message }) => {
   const [toastMessage, setToastMessage] = useState("");
 
   const handleActionClick = (e, actionType) => {
-    e.preventDefault();
-    setToastMessage(t("dashboard.voiceComingSoon").replace("Voice assistant", actionType));
+  e.preventDefault();
+
+  if (actionType === t("dashboard.applyNow")) {
+    setToastMessage("Application submitted successfully!");
     setTimeout(() => setToastMessage(""), 3000);
-  };
+    return;
+  }
+
+  if (actionType === t("dashboard.learnMore")) {
+    setToastMessage("Detailed information loaded.");
+    setTimeout(() => setToastMessage(""), 3000);
+    return;
+  }
+};
 
   const formatMessageText = (txt) => {
     if (!txt) return null;
